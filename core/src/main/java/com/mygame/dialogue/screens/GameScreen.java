@@ -1,4 +1,4 @@
-package com.mygame.dialogue.Screens;
+package com.mygame.dialogue.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,13 +7,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygame.dialogue.DialogueGame;
-import com.mygame.dialogue.Dialogues.Dialogue;
-import com.mygame.dialogue.Dialogues.DialogueManager;
-import com.mygame.dialogue.GameState;
+import com.mygame.dialogue.core.Dialogue;
+import com.mygame.dialogue.core.GameState;
 
 import java.util.Map;
 

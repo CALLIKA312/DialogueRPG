@@ -1,4 +1,4 @@
-package com.mygame.dialogue.Screens;
+package com.mygame.dialogue.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,11 +6,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygame.dialogue.DialogueGame;
-import com.mygame.dialogue.GameState;
+import com.mygame.dialogue.core.GameState;
 
 public class InventoryScreen implements Screen {
     private final DialogueGame game;

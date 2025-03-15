@@ -1,4 +1,4 @@
-package com.mygame.dialogue;
+package com.mygame.dialogue.core;
 
 public class NPC {
     private String name;

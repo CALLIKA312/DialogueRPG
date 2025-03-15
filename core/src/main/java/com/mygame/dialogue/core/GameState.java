@@ -1,22 +1,19 @@
-package com.mygame.dialogue;
+package com.mygame.dialogue.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.mygame.dialogue.Dialogues.Dialogue;
-import com.mygame.dialogue.Dialogues.DialogueManager;
 
 public class GameState {
-    private Array<String> inventory;
     private int health;
-    private int strength;
+    private int strength; // Добавим силу
+    private Array<String> inventory;
     private DialogueManager dialogueManager;
 
     public GameState() {
         this.inventory = new Array<>();
         this.health = 100;
-        this.strength = 10;
+        this.strength = 10; // Начальное значение силы
         this.dialogueManager = new DialogueManager();
 
         // Загрузка диалогов из CSV
@@ -104,6 +101,11 @@ public class GameState {
                     int healthChange = Integer.parseInt(value);
                     setHealth(getHealth() + healthChange);
                     System.out.println("Здоровье изменено на " + healthChange + ". Текущее здоровье: " + getHealth());
+                    break;
+                case "strength":
+                    int strengthChange = Integer.parseInt(value);
+                    setStrength(getStrength() + strengthChange);
+                    System.out.println("Сила изменена на " + strengthChange + ". Текущая сила: " + getStrength());
                     break;
                 case "item":
                     addItemToInventory(value);

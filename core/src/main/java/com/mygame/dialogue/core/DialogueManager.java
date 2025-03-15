@@ -1,4 +1,4 @@
-package com.mygame.dialogue.Dialogues;
+package com.mygame.dialogue.core;
 
 import java.util.HashMap;
 import java.util.Map;

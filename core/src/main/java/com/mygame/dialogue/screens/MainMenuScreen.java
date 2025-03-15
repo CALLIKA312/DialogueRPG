@@ -1,4 +1,4 @@
-package com.mygame.dialogue.Screens;
+package com.mygame.dialogue.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,9 +9,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygame.dialogue.DialogueGame;
+import com.mygame.dialogue.utils.ScreenManager;
 
 public class MainMenuScreen implements Screen {
     private final DialogueGame game;
+    private ScreenManager screenManager;
     private SpriteBatch batch;
     private BitmapFont font;
     private Viewport viewport;
@@ -53,7 +55,7 @@ public class MainMenuScreen implements Screen {
 
         // Обработка ввода
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
-            game.setScreen(game.getGameScreen()); // Используем существующий GameScreen
+            game.setScreen(screenManager.getScreen()); // Используем существующий GameScreen
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
             Gdx.app.exit(); // Выход из игры
         }
