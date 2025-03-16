@@ -1,26 +1,25 @@
 package com.mygame.dialogue.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygame.dialogue.DialogueGame;
-import com.mygame.dialogue.core.GameState;
+import com.mygame.dialogue.MainGame;
+import com.mygame.dialogue.utils.InputHandler;
 
 public class InventoryScreen implements Screen {
-    private final DialogueGame game;
-    private final GameState gameState; // Состояние игры
+    private final MainGame game;
     private SpriteBatch batch;
     private BitmapFont font;
     private Viewport viewport;
+    private InputHandler inputHandler;
 
-    public InventoryScreen(DialogueGame game, GameState gameState) {
+    public InventoryScreen(MainGame game) {
         this.game = game;
-        this.gameState = gameState; // Используем переданное состояние
+        this.inputHandler = new InputHandler(game); // Инициализация InputHandler
     }
 
     @Override
@@ -47,13 +46,13 @@ public class InventoryScreen implements Screen {
         font.draw(batch, "Инвентарь", textX, textY);
 
         // Отрисовка характеристик
-        font.draw(batch, "Здоровье: " + gameState.getHealth(), textX, textY - 50);
-        font.draw(batch, "Сила: " + gameState.getStrength(), textX, textY - 100);
+        font.draw(batch, "Здоровье: " + game.getGameState().getHealth(), textX, textY - 50);
+        font.draw(batch, "Сила: " + game.getGameState().getStrength(), textX, textY - 100);
 
         // Отрисовка инвентаря
         float inventoryY = textY - 150;
         for (int i = 0; i < 6; i++) { // Максимум 6 ячеек
-            String item = (i < gameState.getInventory().size) ? gameState.getInventory().get(i) : "[Пусто]";
+            String item = (i < game.getGameState().getInventory().size) ? game.getGameState().getInventory().get(i) : "[Пусто]";
             font.draw(batch, (i + 1) + ". " + item, textX, inventoryY);
             inventoryY -= 30; // Отступ между предметами
         }
@@ -63,10 +62,9 @@ public class InventoryScreen implements Screen {
 
         batch.end(); // Завершаем отрисовку
 
-        // Закрытие инвентаря по нажатию I
-        if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
-            game.returnToGameScreen(); // Возврат к игровому экрану
-        }
+
+        // Обработка ввода через InputHandler
+        inputHandler.handleInventoryScreenInput();
     }
 
     @Override
@@ -75,13 +73,16 @@ public class InventoryScreen implements Screen {
     }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
-    public void hide() {}
+    public void hide() {
+    }
 
     @Override
     public void dispose() {

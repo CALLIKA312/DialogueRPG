@@ -1,25 +1,25 @@
 package com.mygame.dialogue.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygame.dialogue.DialogueGame;
-import com.mygame.dialogue.utils.ScreenManager;
+import com.mygame.dialogue.MainGame;
+import com.mygame.dialogue.utils.InputHandler;
 
 public class MainMenuScreen implements Screen {
-    private final DialogueGame game;
-    private ScreenManager screenManager;
+    private final MainGame game;
     private SpriteBatch batch;
     private BitmapFont font;
     private Viewport viewport;
+    private InputHandler inputHandler;
 
-    public MainMenuScreen(DialogueGame game) {
+    public MainMenuScreen(MainGame game) {
         this.game = game;
+        this.inputHandler = new InputHandler(game); // Инициализация InputHandler
     }
 
     @Override
@@ -53,12 +53,9 @@ public class MainMenuScreen implements Screen {
 
         batch.end(); // Завершаем отрисовку
 
-        // Обработка ввода
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
-            game.setScreen(screenManager.getScreen()); // Используем существующий GameScreen
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
-            Gdx.app.exit(); // Выход из игры
-        }
+
+        // Обработка ввода через InputHandler
+        inputHandler.handleMainMenuScreenInput();
     }
 
     @Override

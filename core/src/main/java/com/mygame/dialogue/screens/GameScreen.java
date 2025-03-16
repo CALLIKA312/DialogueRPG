@@ -1,7 +1,6 @@
 package com.mygame.dialogue.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -9,24 +8,24 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygame.dialogue.DialogueGame;
+import com.mygame.dialogue.MainGame;
 import com.mygame.dialogue.core.Dialogue;
-import com.mygame.dialogue.core.GameState;
+import com.mygame.dialogue.utils.InputHandler;
 
 import java.util.Map;
 
 public class GameScreen implements Screen {
-    private final DialogueGame game;
-    private final GameState gameState;
+    private final MainGame game;
     private SpriteBatch batch;
     private BitmapFont font;
     private Viewport viewport;
+    private InputHandler inputHandler;
 
-    public GameScreen(DialogueGame game, GameState gameState) {
+    public GameScreen(MainGame game) {
         this.game = game;
-        this.gameState = gameState;
         // Инициализация viewport в конструкторе
         viewport = new FitViewport(800, 600);
+        this.inputHandler = new InputHandler(game); // Инициализация InputHandler
     }
 
     @Override
@@ -75,8 +74,8 @@ public class GameScreen implements Screen {
         // Завершаем отрисовку
         batch.end();
 
-        // Обработка ввода
-        handleInput();
+        // Обработка ввода через InputHandler
+        inputHandler.handleGameScreenInput();
     }
 
     @Override
@@ -101,30 +100,6 @@ public class GameScreen implements Screen {
     public void dispose() {
         batch.dispose();
         font.dispose();
-    }
-
-    private void handleInput() {
-        // Открытие инвентаря по нажатию I
-        if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
-            game.openInventory(); // Открываем инвентарь
-        }
-
-        Dialogue currentDialogue = gameState.getDialogueManager().getCurrentDialogue();
-        int choiceIndex = 1; // Начинаем с первого варианта (NUM_1)
-        for (Map.Entry<Integer, String> entry : currentDialogue.getChoices().entrySet()) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1 + choiceIndex - 1)) {
-                int choiceId = entry.getKey(); // Получаем choiceId
-                gameState.getDialogueManager().nextDialogue(choiceId); // Переход к следующей реплике
-                currentDialogue.triggerChoiceSelected(choiceId); // Вызываем событие с choiceId
-
-                // Если это выбор "Вернуться в меню", переключаемся на MainMenuScreen
-                if (choiceId == 0) {
-                    game.setScreen(new MainMenuScreen(game));
-                }
-                break; // Прерываем цикл после обработки выбора
-            }
-            choiceIndex++;
-        }
     }
 
     private String wrapText(String text, float maxWidth) {
