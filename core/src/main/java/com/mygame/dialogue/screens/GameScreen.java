@@ -9,23 +9,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygame.dialogue.MainGame;
+import com.mygame.dialogue.core.Choice;
 import com.mygame.dialogue.core.Dialogue;
-import com.mygame.dialogue.utils.InputHandler;
-
-import java.util.Map;
 
 public class GameScreen implements Screen {
     private final MainGame game;
     private SpriteBatch batch;
     private BitmapFont font;
     private Viewport viewport;
-    private InputHandler inputHandler;
 
     public GameScreen(MainGame game) {
         this.game = game;
-        // Инициализация viewport в конструкторе
         viewport = new FitViewport(800, 600);
-        this.inputHandler = new InputHandler(game); // Инициализация InputHandler
     }
 
     @Override
@@ -49,7 +44,7 @@ public class GameScreen implements Screen {
         batch.begin();
 
         // Отрисовка текущего диалога
-        Dialogue currentDialogue = game.getGameState().getDialogueManager().getCurrentDialogue();
+        Dialogue currentDialogue = game.getDialogueManager().getCurrentDialogue();
         String wrappedText = wrapText(currentDialogue.getText(), viewport.getWorldWidth() - 100);
 
         // Используем GlyphLayout для измерения высоты текста
@@ -62,8 +57,8 @@ public class GameScreen implements Screen {
         // Отрисовка вариантов ответа
         float choiceY = viewport.getWorldHeight() - 50 - layout.height - 20; // Смещаем варианты вниз
         int choiceIndex = 1; // Нумерация вариантов
-        for (Map.Entry<Integer, String> entry : currentDialogue.getChoices().entrySet()) {
-            font.draw(batch, choiceIndex + ". " + entry.getValue(), 50, choiceY);
+        for (Choice choice : currentDialogue.getChoices()) {
+            font.draw(batch, choiceIndex + ". " + choice.getText(), 50, choiceY);
             choiceY -= 30; // Отступ между вариантами
             choiceIndex++;
         }
@@ -75,7 +70,7 @@ public class GameScreen implements Screen {
         batch.end();
 
         // Обработка ввода через InputHandler
-        inputHandler.handleGameScreenInput();
+        game.getInputHandler().handleGameScreenInput();
     }
 
     @Override

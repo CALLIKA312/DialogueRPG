@@ -3,12 +3,11 @@ package com.mygame.dialogue.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.mygame.dialogue.MainGame;
+import com.mygame.dialogue.core.Choice;
 import com.mygame.dialogue.core.Dialogue;
 import com.mygame.dialogue.screens.GameScreen;
 import com.mygame.dialogue.screens.InventoryScreen;
 import com.mygame.dialogue.screens.MainMenuScreen;
-
-import java.util.Map;
 
 public class InputHandler {
     private final MainGame game;
@@ -24,14 +23,12 @@ public class InputHandler {
             game.getScreenManager().setScreen(InventoryScreen.class); // Переход к экрану инвентаря
         }
 
-        Dialogue currentDialogue = game.getGameState().getDialogueManager().getCurrentDialogue();
+        Dialogue currentDialogue = game.getDialogueManager().getCurrentDialogue();
         int choiceIndex = 1; // Начинаем с первого варианта (NUM_1)
-        for (Map.Entry<Integer, String> entry : currentDialogue.getChoices().entrySet()) {
+        for (Choice choice : currentDialogue.getChoices()) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1 + choiceIndex - 1)) {
-                int choiceId = entry.getKey(); // Получаем choiceId
-                game.getGameState().getDialogueManager().nextDialogue(choiceId); // Переход к следующей реплике
-                currentDialogue.triggerChoiceSelected(choiceId); // Вызываем событие с choiceId
-
+                int choiceId = choice.getId(); // Получаем choiceId
+                game.getDialogueManager().nextDialogue(choiceId); // Переход к следующей реплике
                 // Если это выбор "Вернуться в меню", переключаемся на MainMenuScreen
                 if (choiceId == 0) {
                     game.getScreenManager().setScreen(MainMenuScreen.class); // Переход к главному меню

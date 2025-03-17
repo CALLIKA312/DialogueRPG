@@ -8,18 +8,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygame.dialogue.MainGame;
-import com.mygame.dialogue.utils.InputHandler;
 
 public class InventoryScreen implements Screen {
     private final MainGame game;
     private SpriteBatch batch;
     private BitmapFont font;
     private Viewport viewport;
-    private InputHandler inputHandler;
 
     public InventoryScreen(MainGame game) {
         this.game = game;
-        this.inputHandler = new InputHandler(game); // Инициализация InputHandler
     }
 
     @Override
@@ -64,7 +61,7 @@ public class InventoryScreen implements Screen {
 
 
         // Обработка ввода через InputHandler
-        inputHandler.handleInventoryScreenInput();
+        game.getInputHandler().handleInventoryScreenInput();
     }
 
     @Override
